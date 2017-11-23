@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 @Path("/UserService")
 public class UserService
 {
-    UserDao userDao = new UserDao();
+    UserDao userDao = new UserDao(DevMode.DEV_MODE);
+
+
     private static final String SUCCESS_RESULT = "{\"result\":\"success\"}";
     private static final String FAILURE_RESULT = "{\"result\":\"failure\"}";
 

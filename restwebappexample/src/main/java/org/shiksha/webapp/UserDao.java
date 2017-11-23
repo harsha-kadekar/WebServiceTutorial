@@ -9,12 +9,45 @@ import java.util.List;
 
 public class UserDao
 {
+
+    private String devUserDb = "DevUsers.json";
+    private String testUserDb = "testUsers.json";
+    private String prodUserDb = "Users.json";
+
+    private DevMode mode = DevMode.DEV_MODE;
+
+    public UserDao(DevMode mode)
+    {
+        this.mode = mode;
+    }
+
+    public DevMode getMode()
+    {
+        return mode;
+    }
+
+    public void setMode(DevMode mode)
+    {
+        this.mode = mode;
+    }
+
+    public String getDbFile()
+    {
+        if(mode == DevMode.DEV_MODE)
+            return devUserDb;
+        else if(mode == DevMode.TEST_MODE)
+            return testUserDb;
+        else
+            return prodUserDb;
+    }
+
     public List<User2> getAllUsers()
     {
         List<User2> userList = null;
         try
         {
-            File file = new File("Users.json");
+
+            File file = new File(getDbFile());
             if(!file.exists())
             {
                 User2 us = new User2(1, "Harsha", "SDE");
@@ -112,7 +145,7 @@ public class UserDao
         try
         {
 
-            File file = new File("Users.json");
+            File file = new File(getDbFile());
             FileOutputStream foutput = new FileOutputStream(file);
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(foutput, "UTF-8"));
             bufferedWriter.write(gson.toJson(userList));
